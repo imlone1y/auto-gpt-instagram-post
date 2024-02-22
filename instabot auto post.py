@@ -17,14 +17,14 @@ def delete_and_recreate_folder(folder_path):
     print(f"Empty '{folder_path}' has been recreated.")
 
 # 调用函数，替换下面的路径为您的`config`文件夹的实际路径
-config_folder_path = r'C:\Users\justi\config'
+config_folder_path = 'path\to\config'
 delete_and_recreate_folder(config_folder_path)
 
 
 # 建议使用环境变量来管理敏感信息
-openai.api_key = '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'
-instagram_username = os.getenv('daily_gpt_auto_post')
-instagram_password = os.getenv('chatgpt123')
+openai.api_key = 'UR API KEY'
+instagram_username = os.getenv('account_name')
+instagram_password = os.getenv('password')
 
 # 初始化Instagram bot
 bot = Bot()
@@ -85,7 +85,7 @@ def post_once():
     downloaded_image_path = download_image(image_url, image_path)
     
     # 上传图片到Instagram
-    if bot.upload_photo(r"C:\Users\justi\Desktop\instagram_post.jpeg", caption=caption):
+    if bot.upload_photo(r"path\to\Desktop\instagram_post.jpeg", caption=caption):
         print("Post successful:", caption)
     else:
         print("Failed to post on Instagram.")
