@@ -23,7 +23,7 @@ delete_and_recreate_folder(config_folder_path)
 
 # 建议使用环境变量来管理敏感信息
 openai.api_key = 'UR API KEY'
-instagram_username = os.getenv('account_name')
+instagram_username = os.getenv('username')
 instagram_password = os.getenv('password')
 
 # 初始化Instagram bot
