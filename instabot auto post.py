@@ -5,42 +5,29 @@ import os
 from PIL import Image
 import shutil
 
+# remove the json file which in the config dir.
+os.remove(r"path\to\the\cookie json file")
 
-def delete_and_recreate_folder(folder_path):
-    # 删除整个文件夹
-    if os.path.exists(folder_path):
-        shutil.rmtree(folder_path)
-        print(f"'{folder_path}' has been deleted.")
-    
-    # 重新创建同名文件夹
-    os.makedirs(folder_path)
-    print(f"Empty '{folder_path}' has been recreated.")
-
-# 调用函数，替换下面的路径为您的`config`文件夹的实际路径
-config_folder_path = 'path\to\config'
-delete_and_recreate_folder(config_folder_path)
-
-
-# 建议使用环境变量来管理敏感信息
-openai.api_key = 'UR API KEY'
+# openai api key / username / password
+openai.api_key = 'your openai api key'
 instagram_username = os.getenv('username')
 instagram_password = os.getenv('password')
 
-# 初始化Instagram bot
+# iinitialize Instagram bot
 bot = Bot()
 bot.login(username=instagram_username, password=instagram_password)
 
-# 从ChatGPT生成文案的函数
+# define funtion for gpt to generate caption
 def generate_caption():
-    prompt = "Generate an Instagram caption, about some fun fact."
+    prompt = "Generate an Instagram caption."
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[{"role": "system", "content": "You are a helpful assistant."},
+        messages=[{"role": "system", "content": "You are a helpful assistant that generates interesting Instagram caption."},
                   {"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content.strip()
 
-# 使用DALL·E 3生成图片的函数
+# using dall-e-2 model to generate picture
 def generate_image_from_text(text):
     response = openai.Image.create(
         model="dall-e-2",
@@ -51,7 +38,7 @@ def generate_image_from_text(text):
     image_data = response.data[0].url
     return image_data
 
-# 下载图片的函数
+# define function to download picture
 def download_image(image_url, image_path):
     response = requests.get(image_url)
     if response.status_code == 200:
@@ -62,38 +49,34 @@ def download_image(image_url, image_path):
     else:
         print(f"Failed to download image, status code: {response.status_code}")
 
+# due to instabot only upload jpeg pictures, not jpg
 def convert_jpg_to_jpeg(image_path):
-    # 使用Pillow打开jpg图片
+    # using pillow to open image
     img = Image.open(image_path)
-    # 如果图片不是JPEG格式，则转换
+    # if the file is not jpeg, then convert to jpeg
     if img.format != 'JPEG':
         jpeg_path = image_path.rsplit('.', 1)[0] + '.jpeg'
         img.save(jpeg_path, "JPEG")
-        os.remove(image_path)  # 删除原jpg文件
+        os.remove(image_path)  # delete original file
         return jpeg_path
     return image_path
 
-# 执行发布流程的函数
+# post function
 def post_once():
-    # 生成文案
+    # generate caption
     caption = generate_caption()
     
-    # 使用DALL·E 2生成图片，并指定保存路径到桌面
+    # using dall-e-2 to generate picture, and download to desktop
     image_url = generate_image_from_text(caption)
-    desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')  # 获取桌面路径
-    image_path = os.path.join(desktop_path, 'instagram_post.jpg')  # 指定图片保存位置
+    desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')  # get path to desktop
+    image_path = os.path.join(desktop_path, 'instagram_post.jpg')  # set the path that the picture saved
     downloaded_image_path = download_image(image_url, image_path)
     
-    # 上传图片到Instagram
+    # upload everything on Instagram
     if bot.upload_photo(r"path\to\Desktop\instagram_post.jpeg", caption=caption):
         print("Post successful:", caption)
     else:
         print("Failed to post on Instagram.")
-    # 清理由instabot创建的临时文件
-    try:
-        os.remove("instagram_post.jpeg")
-    except:
-        pass
 
-# 调用执行函数
+# run the program
 post_once()
