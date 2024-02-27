@@ -1,2 +1,9 @@
-# auto-gpt-instagram-post
-by using openai api and instabot api to auto upload instagram post.
+# Auto-GPT-instagram-post
+
+## requirements
+
+  pip install openai
+
+  pip install pillow
+
+  pip install 
