@@ -2,8 +2,8 @@
 
 ## requirements
 
-  pip install openai
+    pip install openai
 
-  pip install pillow
+    pip install pillow
 
-  pip install 
+    pip install 
