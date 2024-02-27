@@ -6,4 +6,9 @@
 
     pip install pillow
 
-    pip install 
+    pip install instabot
+
+## steps
+
+there will be a config dir in userfile, its automatically create by the instabot
+change the path to 
