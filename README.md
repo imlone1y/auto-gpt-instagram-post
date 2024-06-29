@@ -9,7 +9,7 @@
     pip install instabot
 
 ## instabot fixed
-comment the code from 559 to 585 in `api.py` to fix the problem for 429 too mant requests. [stackoverflow](<https://stackoverflow.com/questions/70148664/instabot-error-why-am-i-getting-these-errors-and-how-to-fix-please>)
+commend the code from 559 to 585 in `api.py` to fix the problem for 429 too mant requests. [stackoverflow](<https://stackoverflow.com/questions/70148664/instabot-error-why-am-i-getting-these-errors-and-how-to-fix-please>)
 
 ## initialize
 * in line 9, change the path in `cookie_path` to your own desktop path, to remove the cookie that made during creating the image.
